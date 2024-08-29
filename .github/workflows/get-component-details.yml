@@ -1,0 +1,39 @@
+name: Get component details
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 00 19 * * *
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  get-component-details:
+    name: Get component details
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: checking out 1st repo
+        uses: actions/checkout@v4
+        with:
+          with:
+          repository: ${{ github.repository }}
+          token: ${{ github.token }}
+          path: docs
+
+      - name: echo git branch
+        id: echo-git-branch
+        run: |
+          echo ${{ github.repository }} 
+          echo ${{ github.repository_owner }}
+
+#      - name: checking out 2nd repo
+#        uses: actions/checkout@v4
+#        with:
+#          repository: '${{ github.repository }}'
+#          token: '${{ github.token }}'
+#
+#      - name: echo git branch-2
+#        run: echo ${{ github.repository }}
+
