@@ -1,0 +1,35 @@
+name: Get component details
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 00 19 * * *
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  get-component-details:
+    name: Get component details
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: read-pipeline
+
+    steps:
+      - name: checking out 1st repo
+        uses: actions/checkout@v4
+        with:
+          path: docs
+          fetch-depth: 1
+
+      - name: echo git repo-1
+        run: |
+          echo ${{ github.repository }} 
+          echo ${{ github.repository_owner }}
+
+      - name: Get token
+        id: token
+        run: |
+          githubAppID="${{ vars.APP_ID }}"
+          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"
+          echo $githubAppID $githubAppPrivateKey
