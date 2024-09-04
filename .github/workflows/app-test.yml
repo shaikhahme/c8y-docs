@@ -32,6 +32,8 @@ jobs:
         run: |
           githubAppID="${{ vars.APP_ID }}"
           githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}" 
+          githubAppInstallationId="${{ vars.APP_INSTALL_ID }}"
+          githubApiUrl="${{ vars.GH_SERVER_API_URL }}"
           echo "Flag 1"
 
           iat=$(date +%s)
@@ -52,7 +54,7 @@ jobs:
 
           jwtToken=${jwtHeader}.${jwtPayload}.${jwtSignature}
           
-          echo "Flag 4"
+          echo "Flag "
           
           
           echo "JWT Header: $jwtHeader"
@@ -60,22 +62,7 @@ jobs:
           echo "JWT SIGN: $jwtSignature"
           echo "JWT Token: $jwtToken" 
           
-          echo "jwt=${jwtToken}" >> "${GITHUB_OUTPUT}"
-
-      - name: GitHub app JWT
-        id: github-app-jwt-generator
-        uses: jamestrousdale/github-app-jwt-token@0.1.4
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}"
-
-      - name: Generate installation access token
-        run: |
-          githubApiUrl = "https://github.softwareag.com"
-          githubInstallationID= 54491700
-          GITHUB_APP_JWT=${{ steps.github-app-jwt-generator.outputs.jwt }}
-          echo $GITHUB_APP_JWT
-          echo $ {{steps.generate-app-jwt.outputs.jwtToken}}
+          token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
           
-          access_token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
-          echo $access_token
+          echo "jwt=${jwtToken}" >> "${GITHUB_OUTPUT}"
+          echo "token=${token}" >> "${GITHUB_OUTPUT}"
