@@ -31,18 +31,22 @@ jobs:
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
-          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"          
+          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}" 
+          echo "Flag 1"
+
           iat=$(date +%s)
           # Expire 9 minutes in the future. 10 minutes is the max for GitHub
           exp=$((iat + 540))
           # Generate encoded JWT header
           jwtHeaderRaw='{"alg":"RS256"}'
           jwtHeader=$( echo -n "${jwtHeaderRaw}" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
+          echo "Flag 2"
+
           # Generate encoded JWT payload
           jwtPayloadRaw='{"iat":'"${iat}"',"exp":'"${exp}"',"iss":'"${githubAppID}"'}'
           jwtPayload=$( echo -n "${jwtPayloadRaw}" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
           # Generate encoded JWT signature
-          echo "Testing"
+          echo "Flag 3"
           jwtSignature=$( openssl dgst -sha256 -sign <(echo -n "${githubAppPrivateKey}") <(echo -n "${jwtHeader}.${jwtPayload}") | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
           jwtToken=${jwtHeader}.${jwtPayload}.${jwtSignature}
           
