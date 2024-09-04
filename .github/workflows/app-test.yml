@@ -31,10 +31,7 @@ jobs:
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
-          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"
-          echo "Test"
-          echo $githubAppID $githubAppPrivateKey
-          
+          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"          
           iat=$(date +%s)
           # Expire 9 minutes in the future. 10 minutes is the max for GitHub
           exp=$((iat + 540))
