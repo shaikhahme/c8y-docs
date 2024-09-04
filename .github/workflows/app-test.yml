@@ -64,5 +64,16 @@ jobs:
           
           token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
           
+          echo "Access Token: $token"
           echo "jwt=${jwtToken}" >> "${GITHUB_OUTPUT}"
           echo "token=${token}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout build pipeline repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.REPOSITORY }}
+          fetch-depth: 1
+          ref: ${{ vars.BRANCH }}
+          token: ${{ steps.token.outputs.token }}
+          github-server-url: ${{ vars.GH_SERVER_URL }}
+          path: pipeline
