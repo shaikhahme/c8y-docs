@@ -30,7 +30,7 @@ jobs:
       - name: Get token
         id: token
         run: |
-          githubAppID="${{ env.APP_ID }}"
-          githubAppPrivateKey="${{ env.APP_PRIVATE_KEY }}"
+          githubAppID="${{ vars.APP_ID }}"
+          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"
           echo "Test"
           echo $githubAppID $githubAppPrivateKey
