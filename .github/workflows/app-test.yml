@@ -52,8 +52,8 @@ jobs:
         id: github-app-jwt-generator
         uses: jamestrousdale/github-app-jwt-token@0.1.4
         with:
-          app-id: $githubAppID
-          private-key: $githubAppPrivateKey
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}"
 
       - name: Generate installation access token
         run: |
