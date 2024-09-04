@@ -1,4 +1,4 @@
-name: Get component details
+name: app-tester
 on:
   workflow_dispatch:
   schedule:
@@ -9,11 +9,11 @@ permissions:
   contents: write
 
 jobs:
-  get-component-details:
+  test-app:
     name: Get component details
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    environment: read-pipeline
+    environment: pipeline-read
 
     steps:
       - name: checking out 1st repo
@@ -30,6 +30,7 @@ jobs:
       - name: Get token
         id: token
         run: |
-          githubAppID="${{ vars.APP_ID }}"
-          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"
+          githubAppID="${{ env.APP_ID }}"
+          githubAppPrivateKey="${{ env.APP_PRIVATE_KEY }}"
+          echo "Test"
           echo $githubAppID $githubAppPrivateKey
