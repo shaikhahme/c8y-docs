@@ -42,6 +42,7 @@ jobs:
           jwtPayloadRaw='{"iat":'"${iat}"',"exp":'"${exp}"',"iss":'"${githubAppID}"'}'
           jwtPayload=$( echo -n "${jwtPayloadRaw}" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
           # Generate encoded JWT signature
+          echo "Testing"
           jwtSignature=$( openssl dgst -sha256 -sign <(echo -n "${githubAppPrivateKey}") <(echo -n "${jwtHeader}.${jwtPayload}") | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
           jwtToken=${jwtHeader}.${jwtPayload}.${jwtSignature}
           
