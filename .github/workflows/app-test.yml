@@ -34,3 +34,17 @@ jobs:
           githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}"
           echo "Test"
           echo $githubAppID $githubAppPrivateKey
+
+      - name: GitHub app JWT
+        id: github-app-jwt-generator
+        uses: jamestrousdale/github-app-jwt-token@0.1.4
+        with:
+          app-id: $githubAppID
+          private-key: $githubAppPrivateKey
+
+      - name: Generate installation access token
+        run: |
+          $githubApiUrl = https://github.softwareag.com
+          GITHUB_APP_JWT=${{ steps.github-app-jwt-generator.outputs.jwt }}
+          echo $GITHUB_APP_JWT
+
