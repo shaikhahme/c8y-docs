@@ -34,41 +34,28 @@ jobs:
           githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}" 
           githubAppInstallationId="${{ vars.APP_INSTALL_ID }}"
           githubApiUrl="${{ vars.GH_SERVER_API_URL }}"
-          echo "Flag 1"
-
           iat=$(date +%s)
           # Expire 9 minutes in the future. 10 minutes is the max for GitHub
           exp=$((iat + 540))
           # Generate encoded JWT header
           jwtHeaderRaw='{"alg":"RS256"}'
           jwtHeader=$( echo -n "${jwtHeaderRaw}" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
-          echo "Flag 2"
-
           # Generate encoded JWT payload
           jwtPayloadRaw='{"iat":'"${iat}"',"exp":'"${exp}"',"iss":'"${githubAppID}"'}'
           jwtPayload=$( echo -n "${jwtPayloadRaw}" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
           # Generate encoded JWT signature
-          echo "Flag 3"
-          echo -n "${githubAppPrivateKey}" > /tmp/private_key.pem
-          jwtSignature=$( openssl dgst -sha256 -sign /tmp/private_key.pem <(echo -n "${jwtHeader}.${jwtPayload}") | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
-          rm /tmp/private_key.pem
-          echo "Flag 4"
-
-          jwtToken=${jwtHeader}.${jwtPayload}.${jwtSignature}
+          jwtSignature=$( openssl dgst -sha256 -sign <(echo -n "${githubAppPrivateKey}") <(echo -n "${jwtHeader}.${jwtPayload}") | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
+          jwtToken=${jwtHeader}.${jwtPayload}.${jwtSignature}          
+        
+          #echo "JWT Token: $jwtToken" 
           
-          echo "Flag "
+          curl -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens"
           
+          #token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
+          #echo "Access Token: $token"
           
-          echo "JWT Header: $jwtHeader"
-          echo "JWT Payload: $jwtPayload"
-          echo "JWT SIGN: $jwtSignature"
-          echo "JWT Token: $jwtToken" 
-          
-          token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
-          
-          echo "Access Token: $token"
           echo "jwt=${jwtToken}" >> "${GITHUB_OUTPUT}"
-          echo "token=${token}" >> "${GITHUB_OUTPUT}"
+          #echo "token=${token}" >> "${GITHUB_OUTPUT}"
 
       - name: Checkout build pipeline repo
         uses: actions/checkout@v4
