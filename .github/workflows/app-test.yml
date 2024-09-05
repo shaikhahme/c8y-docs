@@ -53,7 +53,7 @@ jobs:
       - name: Checkout build pipeline repo
         uses: actions/checkout@v4
         with:
-          repository: ${{ vars.REPOSITORY }}
+          repository: ${{ vars.FORKED_REPO }}
           fetch-depth: 1
           ref: ${{ vars.BRANCH }}
           token: ${{ steps.token.outputs.token }}
