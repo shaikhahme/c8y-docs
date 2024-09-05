@@ -59,3 +59,7 @@ jobs:
           token: ${{ steps.token.outputs.token }}
           github-server-url: ${{ vars.GH_SERVER_URL }}
           path: pipeline
+
+      - name: Get Component Details
+        run: |
+          buildartifacts=$(cat docs/data/buildartifact.json | jq '.options[].option' | xargs)
