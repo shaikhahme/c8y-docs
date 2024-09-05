@@ -62,6 +62,8 @@ jobs:
 
       - name: Get Component Details
         run: |
+          cat docs/data/buildartifact.json
+          
           buildartifacts=$(cat docs/data/buildartifact.json | jq '.options[].option' | xargs)
           echo "[]" > output.json
           for artifact in $buildartifacts ;
