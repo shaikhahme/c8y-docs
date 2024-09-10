@@ -65,13 +65,13 @@ jobs:
         with:
             python-version: '3.10'
 
-      - name: Display Python version
+      - name: parse component details
         run: |
           python <<EOF
           import json
           from _datetime import datetime
           output = []
-          buildartifact_path = "/docs/data/buildartifact.json"
+          buildartifact_path = "docs/data/buildartifact.json"
           helmcharts_path = "pipeline/clusters/helm_charts_data.json"
           with open(buildartifact_path) as json_file:
             artifact_options_list = json.load(json_file).get('options')
