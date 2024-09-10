@@ -60,25 +60,10 @@ jobs:
           github-server-url: ${{ vars.GH_SERVER_URL }}
           path: pipeline
 
-      - name: Get Component Details
-        run: |
-          cat docs/data/buildartifact.json
-          
-          buildartifacts=$(cat docs/data/buildartifact.json | jq '.options[].option' | xargs)
-          echo "[]" > output.json
-          for artifact in $buildartifacts ;
-          do
-              cat pipeline/clusters/helm_charts_data.json | jq --arg artifact "$artifact" '[to_entries[] | select(.value.component_name==$artifact)][0].value.zones.["c8y-ops-zone-1"].clusters.["eu-latest-cumulocity-com"]' > details.json
-              versionOfArtifact=$(cat details.json | jq '.version' | xargs)
-              timestamp=$(cat details.json | jq '.updated_at' | xargs)
-              rm details.json
-              if [[ $versionOfArtifact == 'null' ]]; then
-                  echo "$artifact is currently not deployed"
-              else
-                  echo "$artifact is currently deployed in version: $versionOfArtifact and was deployed at $timestamp"
-                  cat output.json | jq --arg artifact "$artifact" --arg version "$versionOfArtifact" --arg timestamp "$timestamp" '. += [{"artifact": $artifact, "version": $version, "timestamp": $timestamp}]' > output.tmp
-                  mv output.tmp output.json
-              fi
-          
-          done
-          echo "matrix=$(cat output.json | jq -c .)"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: '3.10'
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
