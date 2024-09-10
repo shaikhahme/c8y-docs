@@ -92,6 +92,8 @@ jobs:
               output.append({'component_name':
                 component_name, 'component_version': component_version,
                   'component_update_date': component_update_date})
-          with open('compnent_details.json', 'w') as output_file:
+          with open('component_details.json', 'w') as output_file:
             json.dump(output, output_file)
           EOF
+          ls
+          cat component_details.json
