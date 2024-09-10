@@ -9,11 +9,13 @@ permissions:
   contents: write
 
 jobs:
-  test-app:
-    name: Get component details
+  get-component-details:
+    name: Get component details from helm charts
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: pipeline-read
+    outputs:
+      matrix: ${{steps.component-details.output.matrix}}
     steps:
       - name: checking out docs repo
         uses: actions/checkout@v4
@@ -26,7 +28,7 @@ jobs:
           echo ${{ github.repository }} 
           echo ${{ github.repository_owner }}
 
-      - name: Get token
+      - name: Creating github access token
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
@@ -50,6 +52,7 @@ jobs:
           echo "token=${token}" >> "${GITHUB_OUTPUT}"
 
 
+
       - name: Checkout build pipeline repo
         uses: actions/checkout@v4
         with:
@@ -66,6 +69,7 @@ jobs:
             python-version: '3.10'
 
       - name: parse component details
+        id: component-details
         run: |
           python <<EOF
           import json
@@ -95,5 +99,18 @@ jobs:
           with open('component_details.json', 'w') as output_file:
             json.dump(output, output_file)
           EOF
-          ls
-          cat component_details.json
+          cat component_details.json >> "${GITHUB_OUTPUT}"
+
+      - name: Echo component details
+        run: echo
+
+  update-changelog:
+    uses: ./.github/workflows/update-changelog-dates.yml
+    needs: [ get-component-details ]
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.get-component-details.outputs.matrix) }}
+    with:
+      version: ${{ matrix.component_version }}
+      component: ${{ matrix.component_name }}
+      date: ${{ matrix.component_update_date }}
