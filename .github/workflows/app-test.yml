@@ -101,9 +101,6 @@ jobs:
           EOF
           cat component_details.json >> "${GITHUB_OUTPUT}"
 
-      - name: Echo component details
-        run: echo
-
   update-changelog:
     uses: ./.github/workflows/update-changelog-dates.yml
     needs: [ get-component-details ]
