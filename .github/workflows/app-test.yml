@@ -103,8 +103,7 @@ jobs:
             json.dump(output, output_file)
           EOF
           echo "matrix=$(cat component_details.json | jq -c .)" >> $GITHUB_OUTPUT
-          cat component_details.json
-
+          echo "matrix=$(cat component_details.json | jq -c .)"
 
 
       - name: test component output
