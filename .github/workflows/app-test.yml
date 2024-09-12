@@ -128,8 +128,9 @@ jobs:
       - name: test-1
         run: |
           echo "test 1"
-           echo ${{ needs.component-details.output.matrix }}
+           echo ${{ needs.get-component-details.output.matrix }}
            echo "test 2"
-           echo "${{ needs.component-details.output.matrix }}"
+           echo "${{ needs.get-component-details.output.matrix }}"
            echo "test 3"
-           echo ${{ needs.component-details.output }}
+           echo ${{ needs.get-component-details.output }}
+           echo "test 4: ${{ toJSON(needs.get-component-details.outputs) }}"
