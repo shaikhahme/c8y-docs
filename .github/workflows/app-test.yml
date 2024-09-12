@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 15
     environment: pipeline-read
     outputs:
-      matrix: ${{steps.component-details.output.matrix}}
+      matrix: ${{ steps.component-details.output.matrix }}
     steps:
       - name: checking out docs repo
         uses: actions/checkout@v4
@@ -115,3 +115,21 @@ jobs:
           echo "test 3"
           echo ${{ steps.component-details.output }}
     
+
+
+
+  
+
+  test-component-output:
+    name: Test component details from previous jobs
+    runs-on: ubuntu-latest
+    needs: get-component-details
+    steps:
+      - name: test-1
+        run: |
+          echo "test 1"
+           echo ${{ needs.component-details.output.matrix }}
+           echo "test 2"
+           echo "${{ needs.component-details.output.matrix }}"
+           echo "test 3"
+           echo ${{ needs.component-details.output }}
