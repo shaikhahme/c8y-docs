@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 15
     environment: pipeline-read
     outputs:
-      matrix: ${{ steps.component-details.output.matrix }}
+      matrix: ${{ steps.component-details.outputs.matrix }}
     steps:
       - name: checking out docs repo
         uses: actions/checkout@v4
@@ -106,31 +106,15 @@ jobs:
           echo "matrix=$(cat component_details.json | jq -c .)"
 
 
-      - name: test component output
-        run: |
-          echo "test 1"
-          echo ${{ steps.component-details.outputs.matrix }}
-          echo "test 2"
-          echo "${{ steps.component-details.outputs.matrix }}"
-          echo "test 3"
-          echo ${{ steps.component-details.outputs }}
-    
+  update-changelog:
+    uses: ./.github/workflows/update-changelog-dates.yml
+    needs: [ get-component-details ]
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.get-component-details.outputs.matrix) }}
+    with:
+      version: ${{ matrix.component_version }}
+      component: ${{ matrix.component_name }}
+      date: ${{ matrix.component_update_date }}
 
 
-
-  
-
-  test-component-output:
-    name: Test component details from previous jobs
-    runs-on: ubuntu-latest
-    needs: get-component-details
-    steps:
-      - name: test-1
-        run: |
-          echo "test 1"
-           echo ${{ needs.get-component-details.output.matrix }}
-           echo "test 2"
-           echo "${{ needs.get-component-details.output.matrix }}"
-           echo "test 3"
-           echo ${{ needs.get-component-details.output }}
-           echo "test 4: ${{ toJSON(needs.get-component-details.outputs) }}"
