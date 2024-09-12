@@ -112,7 +112,7 @@ jobs:
           echo "test 1"
           echo ${{steps.component-details.output.matrix}}
           echo "test 2"
-          echo ${{component-details.output.matrix}}
+          echo ${{steps.component-details.output.matrix}}
           echo "test 3"
-          echo ${{component-details.output}}
+          echo ${{steps.component-details.output}}
     
