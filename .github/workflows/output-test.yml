@@ -1,4 +1,4 @@
-name: app-tester
+name: output-tester
 on:
   workflow_dispatch:
   schedule:
@@ -19,7 +19,7 @@ jobs:
         id: get-file
         run: |
           touch component_details.json
-          echo "{'test-file':'test1'}" > component_details.json
+          echo '{"test-file":"test1"}' > component_details.json
           echo "matrix=$(cat component_details.json | jq -c .)" >> $GITHUB_OUTPUT
           echo "matrix=$(cat component_details.json | jq -c .)"
 
