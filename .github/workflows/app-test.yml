@@ -28,6 +28,8 @@ jobs:
           echo ${{ github.repository }} 
           echo ${{ github.repository_owner }}
 
+
+
       - name: Creating github access token
         id: token
         run: |
@@ -50,6 +52,7 @@ jobs:
           token=$(curl --fail --silent -X POST -H "Authorization: Bearer ${jwtToken}" -H "Accept: application/vnd.github.v3+json" "${githubApiUrl}/app/installations/${githubAppInstallationId}/access_tokens" | jq -r .token)
           echo "jwt=${jwtToken}" >> "${GITHUB_OUTPUT}"
           echo "token=${token}" >> "${GITHUB_OUTPUT}"
+
 
 
 
@@ -100,8 +103,16 @@ jobs:
             json.dump(output, output_file)
           EOF
           echo "matrix=$(cat component_details.json | jq -c .)" >> $GITHUB_OUTPUT
+          cat component_details.json
+
+
 
       - name: test component output
         run: |
+          echo "test 1"
           echo ${{steps.component-details.output.matrix}}
+          echo "test 2"
+          echo ${{component-details.output.matrix}}
+          echo "test 3"
+          echo ${{component-details.output}}
     
