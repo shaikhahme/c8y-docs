@@ -13,7 +13,7 @@ jobs:
     name: Get component details from helm charts
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.get-file.output.matrix }}
+      matrix: ${{ steps.get-file.outputs.matrix }}
     steps:
       - name: create random test file
         id: get-file
@@ -26,11 +26,11 @@ jobs:
       - name: test component output
         run: |
           echo "test 1"
-          echo ${{ steps.get-file.output.matrix }}
+          echo ${{ steps.get-file.outputs.matrix }}
           echo "test 2"
-          echo "${{ steps.get-file.output.matrix }}"
+          echo "${{ steps.get-file.outputs.matrix }}"
           echo "test 3"
-          echo ${{ steps.get-file.output }}  
+          echo ${{ steps.get-file.outputs }}  
   
 
 
@@ -42,11 +42,11 @@ jobs:
       - name: test-1
         run: |
           echo "test 1"
-           echo ${{ needs.get-component-details.output.matrix }}
+           echo ${{ needs.get-component-details.outputs.matrix }}
            echo "test 2"
-           echo "${{ needs.get-component-details.output.matrix }}"
+           echo "${{ needs.get-component-details.outputs.matrix }}"
            echo "test 3"
-           echo ${{ needs.get-component-details.output }}
+           echo ${{ needs.get-component-details.outputs }}
            echo "test 4: ${{ toJSON(needs.get-component-details.outputs) }}"
 
   test-component-output-2:
@@ -57,9 +57,9 @@ jobs:
       - name: test-1
         run: |
           echo "test 1"
-           echo ${{ needs.get-component-details.output.matrix }}
+           echo ${{ needs.get-component-details.outputs.matrix }}
            echo "test 2"
-           echo "${{ needs.get-component-details.output.matrix }}"
+           echo "${{ needs.get-component-details.outputs.matrix }}"
            echo "test 3"
-           echo ${{ needs.get-component-details.output }}
+           echo ${{ needs.get-component-details.outputs }}
            echo "test 4: ${{ toJSON(needs.get-component-details.outputs) }}"
