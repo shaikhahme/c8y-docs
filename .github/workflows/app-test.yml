@@ -109,11 +109,11 @@ jobs:
       - name: test component output
         run: |
           echo "test 1"
-          echo ${{ steps.component-details.output.matrix }}
+          echo ${{ steps.component-details.outputs.matrix }}
           echo "test 2"
-          echo "${{ steps.component-details.output.matrix }}"
+          echo "${{ steps.component-details.outputs.matrix }}"
           echo "test 3"
-          echo ${{ steps.component-details.output }}
+          echo ${{ steps.component-details.outputs }}
     
 
 
