@@ -74,40 +74,12 @@ jobs:
       - name: parse component details #TODO: create python file and call it
         id: component-details
         run: |
-          python <<EOF
-          import json
-          from _datetime import datetime
-          output = []
-          buildartifact_path = "docs/data/buildartifact.json"
-          helmcharts_path = "pipeline/clusters/helm_charts_data.json"
-          with open(buildartifact_path) as json_file:
-            artifact_options_list = json.load(json_file).get('options')
-            artifact_list = [build_artifact['option'] for build_artifact in artifact_options_list]
-          with open(helmcharts_path) as json_file:
-            components_list = list(json.load(json_file).values())
-          for component in components_list:
-            if component.get('component_name') in artifact_list:
-              component_name = (component.get('component_name'))
-              component_version = (component.get('zones').get('c8y-ops-zone-1').get('desired_version'))
-              try:
-                component_update_date = datetime.strptime(
-                str(component.get('zones').get('c8y-ops-zone-1').get('updated_at')), '%Y-%m-%d %H:%M:%S.%f')
-                component_update_date = component_update_date.strftime('%Y-%m-%d')
-              except ValueError:
-                component_update_date = component.get('zones').get('c8y-ops-zone-1').get('updated_at')
-  
-              output.append({'component_name':
-                component_name, 'component_version': component_version,
-                  'component_update_date': component_update_date})
-          with open('component_details.json', 'w') as output_file:
-            json.dump(output, output_file)
-          EOF
+          python docs/scripts/get-component-details-from-chart.py
           echo "matrix=$(cat component_details.json | jq -c .)" >> $GITHUB_OUTPUT
           echo "matrix=$(cat component_details.json | jq -c .)"
 
-
-  trigger-update-changelog:
-    uses: ./.github/workflows/update-changelog-dates.yml
+  test-component-details-output:
+    uses: ./.github/workflows/output-test.yml
     needs: [ get-component-details ]
     strategy:
       matrix:
@@ -116,5 +88,17 @@ jobs:
       version: ${{ matrix.component_version }}
       component: ${{ matrix.component_name }}
       date: ${{ matrix.component_update_date }}
+
+
+#  trigger-update-changelog:
+#    uses: ./.github/workflows/update-changelog-dates.yml
+#    needs: [ get-component-details ]
+#    strategy:
+#      matrix:
+#        include: ${{ fromJson(needs.get-component-details.outputs.matrix) }}
+#    with:
+#      version: ${{ matrix.component_version }}
+#      component: ${{ matrix.component_name }}
+#      date: ${{ matrix.component_update_date }}
 
 
