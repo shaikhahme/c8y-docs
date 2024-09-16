@@ -17,18 +17,11 @@ jobs:
     outputs:
       matrix: ${{ steps.component-details.outputs.matrix }}
     steps:
-      - name: checking out docs repo
+      - name: checkout docs repository
         uses: actions/checkout@v4
         with:
           path: docs
           fetch-depth: 1
-
-      - name: echo git repo-1
-        run: |
-          echo ${{ github.repository }} 
-          echo ${{ github.repository_owner }}
-
-
 
       - name: Creating github access token #TODO: use our github app instead
         id: token
@@ -56,7 +49,8 @@ jobs:
 
 
 
-      - name: Checkout build pipeline repo
+
+      - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.FORKED_REPO }}
@@ -66,32 +60,19 @@ jobs:
           github-server-url: ${{ vars.GH_SERVER_URL }}
           path: pipeline
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
             python-version: '3.10'
 
-      - name: parse component details
+      - name: Get component details from helm charts
         id: component-details
         run: |
           python docs/scripts/get-component-details-from-chart.py
           echo "matrix=$(cat components_to_update.json | jq -c .)" >> $GITHUB_OUTPUT
-          echo "matrix=$(cat components_to_update.json | jq -c .)"
 
-  test-component-details-output:
-    uses: ./.github/workflows/output-test.yml
-    needs: [ get-component-details ]
-    strategy:
-      matrix:
-        include: ${{ fromJson(needs.get-component-details.outputs.matrix) }}
-    with:
-      version: ${{ matrix.component_version }}
-      component: ${{ matrix.component_name }}
-      date: ${{ matrix.component_update_date }}
-
-
-#  trigger-update-changelog:
-#    uses: ./.github/workflows/update-changelog-dates.yml
+#  test-component-details-output:
+#    uses: ./.github/workflows/output-test.yml
 #    needs: [ get-component-details ]
 #    strategy:
 #      matrix:
@@ -100,5 +81,17 @@ jobs:
 #      version: ${{ matrix.component_version }}
 #      component: ${{ matrix.component_name }}
 #      date: ${{ matrix.component_update_date }}
+
+
+  trigger-update-changelog:
+    uses: ./.github/workflows/update-changelog-dates.yml
+    needs: [ get-component-details ]
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.get-component-details.outputs.matrix) }}
+    with:
+      version: ${{ matrix.component_version }}
+      component: ${{ matrix.component_name }}
+      date: ${{ matrix.component_update_date }}
 
 
