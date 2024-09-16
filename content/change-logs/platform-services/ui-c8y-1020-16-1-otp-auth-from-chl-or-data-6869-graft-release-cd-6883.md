@@ -1,5 +1,5 @@
 ---
-date: '2024-08-22'
+date:
 title: >-
   QR code for two-factor authentication provided during TOTP setup now shows up
   correctly
