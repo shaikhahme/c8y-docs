@@ -106,8 +106,8 @@ jobs:
           echo "matrix=$(cat component_details.json | jq -c .)"
 
 
-  test-output:
-    uses: ./.github/workflows/output-test.yml
+  trigger-update-changelog:
+    uses: ./.github/workflows/update-changelog-dates.yml
     needs: [ get-component-details ]
     strategy:
       matrix:
