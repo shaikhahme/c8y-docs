@@ -1,5 +1,5 @@
 ---
-date:
+date: '2024-08-27'
 title: UI improvement for ordering of complex properties
 product_area: Application enablement & solutions
 change_type:
