@@ -30,7 +30,7 @@ jobs:
 
 
 
-      - name: Creating github access token
+      - name: Creating github access token #TODO: use our github app instead
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
@@ -71,7 +71,7 @@ jobs:
         with:
             python-version: '3.10'
 
-      - name: parse component details
+      - name: parse component details #TODO: create python file and call it
         id: component-details
         run: |
           python <<EOF
@@ -106,8 +106,8 @@ jobs:
           echo "matrix=$(cat component_details.json | jq -c .)"
 
 
-  update-changelog:
-    uses: ./.github/workflows/update-changelog-dates.yml
+  test-output:
+    uses: ./.github/workflows/output-test.yml
     needs: [ get-component-details ]
     strategy:
       matrix:
