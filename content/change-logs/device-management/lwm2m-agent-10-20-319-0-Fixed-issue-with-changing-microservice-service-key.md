@@ -1,5 +1,5 @@
 ---
-date:
+date: '2024-10-09'
 title: LWM2M agent changes external microservice properly
 change_type:
   - value: change-VSkj2iV9m
@@ -12,7 +12,7 @@ build_artifact:
   - value: tc-ggH2M4hf3
     label: lwm2m-agent
 ticket: DM-2674
-version: 10.20.319.0
+version: 1020.319.0
 ---
 
 In the custom action configuration of LWM2M device protocol resources, the exchange to another external decoder microservice
