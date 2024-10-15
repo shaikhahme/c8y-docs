@@ -51,7 +51,7 @@ jobs:
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ vars.BUILD_REPO }}
+          repository: ${{ vars.FORKED_REPO }}
           fetch-depth: 1
           ref: ${{ vars.BRANCH }}
           token: ${{ steps.token.outputs.token }}
