@@ -62,17 +62,18 @@ jobs:
           echo "[]" > output.json
           for artifact in $buildartifacts ;
           do
-            cat pipeline/clusters/helm_charts_data.json | jq --arg artifact "$artifact" '[to_entries[] | select(.value.component_name==$artifact)][0].value.zones.["c8y-ops-zone-1"].clusters.["eu-latest-cumulocity-com"]' > details.json
-            versionOfArtifact=$(cat details.json | jq '.version' | xargs)
-            timestamp=$(cat details.json | jq '.updated_at' | xargs)
-            rm details.json
-            if [[ $versionOfArtifact == 'null' ]]; then
-                echo "$artifact is currently not deployed"
-            else
-                echo "$artifact is currently deployed in version: $versionOfArtifact and was deployed at $timestamp"
-                cat output.json | jq --arg artifact "$artifact" --arg version "$versionOfArtifact" --arg timestamp "$timestamp" '. += [{"component_name": $artifact, "component_version": $version, "component_update_date": $timestamp}]' > output.tmp
-                mv output.tmp output.json
-            fi
+              cat pipeline/clusters/helm_charts_data.json | jq --arg artifact "$artifact" '[to_entries[] | select(.value.component_name==$artifact)][0].value.zones.["c8y-ops-zone-1"].clusters.["eu-latest-cumulocity-com"]' > details.json
+              versionOfArtifact=$(cat details.json | jq '.version' | xargs)
+              timestamp=$(cat details.json | jq '.updated_at' | xargs)
+              rm details.json
+              if [[ $versionOfArtifact == 'null' ]]; then
+                  echo "$artifact is currently not deployed"
+              else
+                  echo "$artifact is currently deployed in version: $versionOfArtifact and was deployed at $timestamp"
+                  cat output.json | jq --arg artifact "$artifact" --arg version "$versionOfArtifact" --arg timestamp "$timestamp" '. += [{"artifact": $artifact, "version": $version, "timestamp": $timestamp}]' > output.tmp
+                  mv output.tmp output.json
+              fi
+          
           done
           echo "matrix=$(cat output.json | jq -c .)" >> $GITHUB_OUTPUT
 
