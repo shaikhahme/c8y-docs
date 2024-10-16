@@ -13,7 +13,7 @@ jobs:
     name: Get component details from helm charts
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    environment: pipeline-read
+    environment: c8y-docs-env
     outputs:
       matrix: ${{ steps.component-details.outputs.matrix }}
     steps:
@@ -27,9 +27,9 @@ jobs:
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
-          githubAppPrivateKey="${{ secrets.APP_SECRET_KEY_PM }}" 
-          githubAppInstallationId="${{ vars.APP_INSTALL_ID }}"
-          githubApiUrl="${{ vars.GH_SERVER_API_URL }}"
+          githubAppPrivateKey="${{ secrets.APP_SECRET_KEY }}" 
+          githubAppInstallationId="${{ vars.APP_INSTALLATION_ID }}"
+          githubApiUrl="https://api.github.com"
           iat=$(date +%s)
           # Expire 9 minutes in the future. 10 minutes is the max for GitHub
           exp=$((iat + 540))
@@ -49,9 +49,9 @@ jobs:
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ vars.C8Y_IOT_BUILD_PIPELINE_REPO }}
+          repository: Cumulocity-IoT/c8y-iot-build-pipeline
           fetch-depth: 1
-          ref: ${{ vars.BRANCH }}
+          ref: gh-pages-status
           token: ${{ steps.token.outputs.token }}
           path: pipeline
 
