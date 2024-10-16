@@ -27,7 +27,7 @@ jobs:
         id: token
         run: |
           githubAppID="${{ vars.APP_ID }}"
-          githubAppPrivateKey="${{ secrets.APP_SECRET_KEY }}" 
+          githubAppPrivateKey="${{ secrets.APP_PRIVATE_KEY }}" 
           githubAppInstallationId="${{ vars.APP_INSTALLATION_ID }}"
           githubApiUrl="https://api.github.com"
           iat=$(date +%s)
