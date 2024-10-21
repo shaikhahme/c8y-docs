@@ -1,5 +1,5 @@
 ---
-date:
+date: '2024-10-17'
 title: LWM2M agent processes large LWM2M bulk registration reliably
 change_type:
   - value: change-VSkj2iV9m
@@ -12,6 +12,6 @@ build_artifact:
   - value: tc-ggH2M4hf3
     label: lwm2m-agent
 ticket: DM-3141
-version: 10.20.309.0
+version: 1020.309.0
 ---
 LWM2M bulk registrations and removals processed by the LWM2M agent were unreliable due to a race condition. This issue has been fixed and bulk registrations are now processed reliably.
