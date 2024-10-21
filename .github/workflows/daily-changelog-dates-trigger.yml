@@ -27,9 +27,10 @@ jobs:
         id: token
         uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ vars.APP_ID }}
+          app-id: ${{ vars.APP_ID }}
           #installation_id: ${{ vars.APP_INSTALL_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: shaikhahme
 
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
