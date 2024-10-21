@@ -23,7 +23,7 @@ jobs:
           path: docs
           fetch-depth: 1
 
-      - name: Creating github access token #TODO: use c8y github app instead
+      - name: Creating github access token
         id: token
         uses: Cumulocity-IoT/github-app-token@v1
         with:
