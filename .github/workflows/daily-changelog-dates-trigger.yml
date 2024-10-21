@@ -30,7 +30,7 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: cumulocity-iot
-          repository: c8y-iot-build-pipeline
+          repositories: c8y-iot-build-pipeline
 
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
