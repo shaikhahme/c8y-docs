@@ -13,7 +13,7 @@ jobs:
     name: Get component details from helm charts
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    environment: pipeline-read
+    environment: build-pipeline
     outputs:
       matrix: ${{ steps.component-details.outputs.matrix }}
     steps:
@@ -28,9 +28,9 @@ jobs:
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.APP_ID }}
-          #installation_id: ${{ vars.APP_INSTALL_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: shaikhahme
+          owner: cumulocity-iot
+          repositories: c8y-iot-build-pipeline
 
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
