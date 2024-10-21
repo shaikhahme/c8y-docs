@@ -1,6 +1,6 @@
 ---
 date: ""
-title: Fixed issue with delete popup not closing correctly when hitting another delete button in the bookmark edit view
+title: Delete popup now closing correctly when hitting another delete button in the bookmark edit view
 product_area: Application enablement & solutions
 change_type:
   - value: change-VSkj2iV9m
