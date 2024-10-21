@@ -28,7 +28,7 @@ jobs:
         uses: Cumulocity-IoT/github-app-token@v1
         with:
           app_id: ${{ vars.APP_ID }}
-          installation_id: ${{ var.APP_INSTALL_ID }}
+          installation_id: ${{ vars.APP_INSTALL_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Checkout c8y-iot-build-pipeline repository
