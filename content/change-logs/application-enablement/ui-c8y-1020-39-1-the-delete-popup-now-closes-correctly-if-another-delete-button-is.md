@@ -14,4 +14,4 @@ build_artifact:
 ticket: MTM-60830
 version: 1020.39.1
 ---
-In certain scenarios, clicking on a delete button while the delete confirmation popup was already open would lead to unexpected behavior and the popup not closing properly. This issue has now been resolved. The delete confirmation popup will now always close correctly when clicking on another delete button, allowing users to smoothly continue their workflow without any interruptions. This change improves the overall user experience and consistency when working with delete confirmations in the bookmark edit view.
+In the bookmark edit view, clicking on a delete button while the delete confirmation popup was already open would lead to unexpected behavior and the popup not closing properly. This issue has now been resolved. The delete confirmation popup will now always close correctly when clicking on another delete button, allowing users to smoothly continue their workflow without any interruptions. This change improves the overall user experience and consistency when working with delete confirmations.
