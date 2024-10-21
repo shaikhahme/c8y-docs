@@ -14,4 +14,4 @@ build_artifact:
 ticket: DM-3877
 version: 1020.35.1
 ---
-The typeahead component allows users to quickly find and select an item from a list as they type. Previously, when a user selected an item from the typeahead list, the form would not update with the selected value. Now, when a user selects an item from the typeahead list, the associated form field will be immediately updated with the selected value.
+The typeahead component allows users to quickly find and select an item from a list as they type. Previously, when a user selected an item from the typeahead list, the associated field would not update with the selected value. Now, when a user selects an item from the list, the associated field will immediately be updated with the selected value.
