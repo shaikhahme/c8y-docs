@@ -25,11 +25,12 @@ jobs:
 
       - name: Creating github access token
         id: token
-        uses: Cumulocity-IoT/github-app-token@v1
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ vars.APP_ID }}
-          installation_id: ${{ vars.APP_INSTALL_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: cumulocity-iot
+          repository: c8y-iot-build-pipeline
 
       - name: Checkout c8y-iot-build-pipeline repository
         uses: actions/checkout@v4
