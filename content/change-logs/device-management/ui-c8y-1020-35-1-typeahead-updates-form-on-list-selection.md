@@ -1,6 +1,6 @@
 ---
 date: ""
-title: Typeahead updates form on list selection.
+title: Typeahead component now updates form when selecting an item from the list
 product_area: Device management & connectivity
 change_type:
   - value: change-VSkj2iV9m
