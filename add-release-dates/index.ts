@@ -40,9 +40,9 @@ async function processFile(filePath: string): Promise<boolean> {
     const normalizedVersion = `${parts[0]}${parts[1]}.${parts[2]}.${parts[3]}`;
     console.warn("Non-semantic version: ", data.version ,"converted to semantic version format: ", normalizedVersion);
     data.version=normalizedVersion ;
-    }
+  }
 
-  if(!valid(data.version)){
+  if(!valid(data.version)) {
     console.debug("Version in file: ",filePath,"is not a valid semver. Skipping..");
     return false;
     }
