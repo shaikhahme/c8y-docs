@@ -45,7 +45,7 @@ async function processFile(filePath: string): Promise<boolean> {
   if(!valid(data.version)) {
     console.debug("Version in file: ",filePath,"is not a valid semver. Skipping..");
     return false;
-    }
+  }
 
 
   if (lt(version, data.version)) {
