@@ -71,5 +71,3 @@ jobs:
       version: ${{ matrix.component_version }}
       component: ${{ matrix.component_name }}
       date: ${{ matrix.component_update_date }}
-
-

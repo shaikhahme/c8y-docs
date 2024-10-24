@@ -46,8 +46,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: logging-inputs
-      run: echo ${{inputs.component}} ${{inputs.version}} ${{inputs.date}}
+    - name: Log inputs
+      run: |
+        echo "Received inputs: ${{ inputs.component }} ${{ inputs.version }} ${{ inputs.date }}"
 
     - name: Checking out
       uses: actions/checkout@v4
