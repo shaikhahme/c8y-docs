@@ -108,7 +108,7 @@ jobs:
         git push -u origin "${{ steps.branch-name.outputs.branch-name }}"
         echo "uniqueBranchFlag=true" >> $GITHUB_OUTPUT
         else
-        echo "${{ steps.branch-name.outputs.branch-name }} branch already exists, please merge it"
+        echo "::warning :: ${{ steps.branch-name.outputs.branch-name }} branch already exists, please merge it"
         echo "uniqueBranchFlag=false" >> $GITHUB_OUTPUT
         fi
 
