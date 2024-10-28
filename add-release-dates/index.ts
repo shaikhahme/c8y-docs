@@ -95,16 +95,16 @@ async function processFiles() {
 
 function convertVersionFormat(version: string){ // used to toggle version format between semantic and non-semantic formats
     if (version.split('.').length == 4){
-        console.debug("Non-Semantic version found, returning semantic version")
         const versionParts = version.split('.');
         const semanticVersion = `${versionParts[0]}${versionParts[1]}.${versionParts[2]}.${versionParts[3]}`;
+        console.debug("Non-Semantic format:",version,"converted to semantic format",semanticVersion,"for processing")
         return semanticVersion
     }
     else if (version.split('.').length == 3){
-        console.debug("Semantic version found, returning non-semantic version")
         const versionParts = version.split('.');
         const majorVersion = versionParts[0]
         const nonSemanticVersion = `${majorVersion.slice(0,2)}.${majorVersion.slice(2,4)}.${versionParts[1]}.${versionParts[2]}`;
+        console.debug("Semantic format:",version,"converted to non-semantic format",nonSemanticVersion,"for output")
         return nonSemanticVersion;
     }
 }
