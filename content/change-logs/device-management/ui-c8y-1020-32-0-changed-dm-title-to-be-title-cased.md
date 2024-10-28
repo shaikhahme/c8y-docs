@@ -1,5 +1,5 @@
 ---
-date: ""
+date: '2024-10-24'
 title: Device management title now uses title case as all the application titles.
 product_area: Device management & connectivity
 change_type:
@@ -12,6 +12,6 @@ build_artifact:
   - value: tc-pjJiURv9Y
     label: ui-c8y
 ticket: DM-3890
-version: 1020.32.0
+version: 10.20.32.0
 ---
 To improve readability and consistency, the titles of device management application now use title case (Device Management) instead of sentence case (Device management). The functionality of the entities remains the same, only the casing of the titles has been modified.

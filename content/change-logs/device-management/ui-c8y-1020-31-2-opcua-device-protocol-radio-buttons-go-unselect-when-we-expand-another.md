@@ -1,6 +1,8 @@
 ---
-date: ""
-title: Radio button selection in OPC UA device protocol configuration maintained when expanding another variable
+date: '2024-10-24'
+title: >-
+  Radio button selection in OPC UA device protocol configuration maintained when
+  expanding another variable
 product_area: Device management & connectivity
 change_type:
   - value: change-VSkj2iV9m
